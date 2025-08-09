@@ -68,10 +68,6 @@ export default async function handler(
       model: openai.image("gpt-image-1"),
       prompt: promptWithRefs,
       size: "1024x1024",
-      // Ask provider for base64 payload so we can always produce a data URL when no URL is returned
-      providerOptions: {
-        openai: { response_format: "b64_json" },
-      },
     });
 
     // Prefer URL if provided by provider; otherwise fall back to a data URL.
