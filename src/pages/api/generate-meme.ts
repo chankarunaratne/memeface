@@ -96,15 +96,24 @@ export default async function handler(
       imageUrl = result.url;
     } else if (
       result?.image &&
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       typeof (result as any).image?.toDataURL === "function"
     ) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       imageUrl = await (result as any).image.toDataURL();
-    } else if (typeof (result as any)?.toDataURL === "function") {
+    } else if (
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      typeof (result as any)?.toDataURL === "function"
+    ) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       imageUrl = await (result as any).toDataURL();
     } else if (
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       Array.isArray((result as any)?.images) &&
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (result as any).images.length > 0
     ) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const first = (result as any).images[0];
       if (typeof first?.url === "string") imageUrl = first.url;
       else if (typeof first?.toDataURL === "function")
@@ -118,9 +127,12 @@ export default async function handler(
     // 2) OpenAI raw shapes (when SDK passes through)
     if (
       !imageUrl &&
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       Array.isArray((result as any)?.data) &&
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (result as any).data.length > 0
     ) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const first = (result as any).data[0];
       if (typeof first?.url === "string") imageUrl = first.url;
       else if (typeof first?.b64_json === "string")
@@ -132,8 +144,11 @@ export default async function handler(
     // 3) Misc common fields seen across providers
     if (!imageUrl) {
       const b64Fields = [
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (result as any)?.b64_json,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (result as any)?.base64,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (result as any)?.image_base64,
       ].filter((v) => typeof v === "string") as string[];
       if (b64Fields.length > 0) imageUrl = toDataUrl(b64Fields[0]);
@@ -145,6 +160,7 @@ export default async function handler(
         // eslint-disable-next-line no-console
         console.warn(
           "/api/generate-meme: unexpected result shape",
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           Object.keys(resultUnknown as any)
         );
       } catch {}
